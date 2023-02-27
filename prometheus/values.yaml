@@ -250,7 +250,7 @@ server:
   ingress:
     ## If true, Prometheus server Ingress will be created
     ##
-    enabled: false
+    enabled: true
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
@@ -269,7 +269,8 @@ server:
     ## Prometheus server Ingress hostnames with optional path
     ## Must be provided if Ingress is enabled
     ##
-    hosts: []
+    hosts:
+     - #DEFINE_ME
     #   - prometheus.domain.com
     #   - domain.com/prometheus
 
@@ -288,7 +289,8 @@ server:
     ## Prometheus server Ingress TLS configuration
     ## Secrets must be manually created in the namespace
     ##
-    tls: []
+    tls:
+     - {}
     #   - secretName: prometheus-server-tls
     #     hosts:
     #       - prometheus.domain.com
@@ -532,10 +534,10 @@ server:
   ## Security context to be added to server pods
   ##
   securityContext:
-    runAsUser: 65534
+    runAsUser: 1000740000
     runAsNonRoot: true
-    runAsGroup: 65534
-    fsGroup: 65534
+    runAsGroup: 1000740000
+    fsGroup: 1000740000
 
   ## Security context to be added to server container
   ##
@@ -1082,12 +1084,16 @@ alertmanager:
 
   persistence:
     size: 2Gi
+  securityContext:
+    runAsUser: 1000740000
+    runAsNonRoot: true
+    runAsGroup: 1000740000
 
   podSecurityContext:
-    runAsUser: 65534
-    runAsNonRoot: true
-    runAsGroup: 65534
-    fsGroup: 65534
+  #  runAsUser: 1000740000
+  #  runAsNonRoot: true
+  #  runAsGroup: 1000740000
+    fsGroup: 1000740000
 
 ## kube-state-metrics sub-chart configurable values
 ## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-state-metrics
@@ -1096,6 +1102,18 @@ kube-state-metrics:
   ## If false, kube-state-metrics sub-chart will not be installed
   ##
   enabled: true
+  securityContext:
+    runAsUser: 1000740000
+    runAsNonRoot: true
+    runAsGroup: 1000740000
+    fsGroup: 1000740000
+
+  podSecurityContext:
+    runAsUser: 1000740000
+    runAsNonRoot: true
+    runAsGroup: 1000740000
+    fsGroup: 1000740000
+  
 
 ## promtheus-node-exporter sub-chart configurable values
 ## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-node-exporter
@@ -1104,7 +1122,17 @@ prometheus-node-exporter:
   ## If false, node-exporter will not be installed
   ##
   enabled: true
+  securityContext:
+    runAsUser: 1000740000
+    runAsNonRoot: true
+    runAsGroup: 1000740000
+    fsGroup: 1000740000
 
+  podSecurityContext:
+    runAsUser: 1000740000
+    runAsNonRoot: true
+    runAsGroup: 1000740000
+    fsGroup: 1000740000
   rbac:
     pspEnabled: false
 
@@ -1118,7 +1146,17 @@ prometheus-pushgateway:
   ## If false, pushgateway will not be installed
   ##
   enabled: true
+  securityContext:
+    runAsUser: 1000740000
+    runAsNonRoot: true
+    runAsGroup: 1000740000
+    fsGroup: 1000740000
 
+  podSecurityContext:
+    runAsUser: 1000740000
+    runAsNonRoot: true
+    runAsGroup: 1000740000
+    fsGroup: 1000740000
   # Optional service annotations
   serviceAnnotations:
     prometheus.io/probe: pushgateway
